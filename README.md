@@ -107,8 +107,3 @@ This script makes significant changes to your Microsoft 365 tenant. Always:
 ## License
 
 This script is provided as-is with no warranties or guarantees.
-```
-
-This README provides comprehensive documentation for your script, including usage examples, parameters, troubleshooting tips, and important disclaimers. It also includes the current date and your login information as you requested.
-
-Would you like me to make any adjustments to this README file?
