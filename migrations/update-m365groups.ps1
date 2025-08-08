@@ -281,8 +281,7 @@ function Update-GroupAddresses {
             Set-UnifiedGroup -Identity $Group.PrimarySmtpAddress -EmailAddresses $FinalAddresses -ErrorAction Stop
             Write-Host "  ✓ Successfully updated group addresses" -ForegroundColor Green
             
-            Write-LogEntry -GroupName $GroupName -GroupEmail $GroupEmail -Action "Updated Addresses" `
-                -OldValue ($CurrentAddresses -join ';') -NewValue ($FinalAddresses -join ';') -Status "Success"
+            Write-LogEntry -GroupName $GroupName -GroupEmail $GroupEmail -Action "Updated Addresses" -OldValue ($CurrentAddresses -join ';') -NewValue ($FinalAddresses -join ';') -Status "Success"
             
             return $true
         } catch {
@@ -290,15 +289,13 @@ function Update-GroupAddresses {
             Write-Host "  ✗ $ErrorMessage" -ForegroundColor Red
             $ErrorMessage | Out-File -FilePath $ErrorLog -Append
             
-            Write-LogEntry -GroupName $GroupName -GroupEmail $GroupEmail -Action "Update Failed" `
-                -OldValue ($CurrentAddresses -join ';') -NewValue "FAILED" -Status "Error"
+            Write-LogEntry -GroupName $GroupName -GroupEmail $GroupEmail -Action "Update Failed" -OldValue ($CurrentAddresses -join ';') -NewValue "FAILED" -Status "Error"
             
             return $false
         }
     } else {
         Write-Host "  [WhatIf] Would update addresses" -ForegroundColor Yellow
-        Write-LogEntry -GroupName $GroupName -GroupEmail $GroupEmail -Action "WhatIf - Would Update" `
-            -OldValue ($CurrentAddresses -join ';') -NewValue ($FinalAddresses -join ';') -Status "WhatIf"
+        Write-LogEntry -GroupName $GroupName -GroupEmail $GroupEmail -Action "WhatIf - Would Update" -OldValue ($CurrentAddresses -join ';') -NewValue ($FinalAddresses -join ';') -Status "WhatIf"
         return $true
     }
 }
