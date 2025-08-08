@@ -31,7 +31,7 @@
    # Clean up single domain
 
  .EXAMPLE
-   .\UniversalDomainCleanup.ps1 -OldDomain "contoso.com" -Identity "allison@bigcatlabs.com"
+   .\UniversalDomainCleanup.ps1 -OldDomain "contoso.com" -Identity "user@contoso.com"
    # Test cleanup on single user
 
  .EXAMPLE
