@@ -149,11 +149,12 @@ function Get-CNStringsFromXMLContent {
         foreach ($StringElement in $StringElements) {
             $StringValue = $StringElement.InnerText
             
-            # Check if string starts with "CN="
-            if ($StringValue -match "^CN=") {
+            # Check if string starts with "CN=" (case-insensitive, after trimming)
+            $TrimmedValue = $StringValue.Trim()
+            if ($TrimmedValue -imatch "^CN=") {
                 $Result = [PSCustomObject]@{
                     FilePath = $FilePath
-                    CNString = $StringValue.Trim()
+                    CNString = $TrimmedValue
                 }
                 
                 # Add line number if requested
@@ -171,7 +172,7 @@ function Get-CNStringsFromXMLContent {
                 }
                 
                 $Results += $Result
-                Write-LogEntry "Found CN string in $FilePath`: $StringValue"
+                Write-LogEntry "Found CN string in $FilePath`: $TrimmedValue"
             }
         }
     }
@@ -255,7 +256,13 @@ Write-Host "`n=== PROCESSING XML FILES ===" -ForegroundColor Magenta
 # Process files in batches for memory efficiency
 for ($i = 0; $i -lt $XmlFiles.Count; $i += $BatchSize) {
     $BatchEnd = [Math]::Min($i + $BatchSize - 1, $XmlFiles.Count - 1)
-    $CurrentBatch = $XmlFiles[$i..$BatchEnd]
+    if ($i -eq $BatchEnd) {
+        # Single item case
+        $CurrentBatch = @($XmlFiles[$i])
+    } else {
+        # Multiple items case
+        $CurrentBatch = $XmlFiles[$i..$BatchEnd]
+    }
     
     Write-Host "Processing batch $([Math]::Floor($i / $BatchSize) + 1) of $([Math]::Ceiling($XmlFiles.Count / $BatchSize)) (files $($i + 1)-$($BatchEnd + 1))" -ForegroundColor Cyan
     
