@@ -4,7 +4,7 @@
 
 .DESCRIPTION
     This script processes XML files in a specified directory and extracts strings within
-    <string></string> elements that begin with "CN=". It handles large datasets (1,020+
+    <String></String> or <string></string> elements that begin with "CN=". It handles large datasets (1,020+
     files) efficiently with batch processing, progress indicators, and comprehensive
     error handling.
 
@@ -143,8 +143,9 @@ function Get-CNStringsFromXMLContent {
         # Parse XML content
         $XmlDoc = [xml]$XmlContent
         
-        # Find all <string> elements
-        $StringElements = $XmlDoc.SelectNodes("//string")
+        # Find all <String> and <string> elements (case-insensitive)
+        # Using translate() function to handle case-insensitive matching
+        $StringElements = $XmlDoc.SelectNodes("//String | //string")
         
         foreach ($StringElement in $StringElements) {
             $StringValue = $StringElement.InnerText
@@ -349,7 +350,7 @@ Write-Host "  Error Log: $ErrorLog" -ForegroundColor White
 
 if ($TotalCNStrings -eq 0) {
     Write-Host "`nNo CN strings were found. Please verify:" -ForegroundColor Yellow
-    Write-Host "  • XML files contain <string> elements" -ForegroundColor White
+    Write-Host "  • XML files contain <String> or <string> elements" -ForegroundColor White
     Write-Host "  • String values begin with 'CN='" -ForegroundColor White
     Write-Host "  • XML files are well-formed" -ForegroundColor White
 } else {
