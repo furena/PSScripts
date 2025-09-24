@@ -1,11 +1,62 @@
 
-# Universal Domain Cleanup Script
+# PSScripts Repository
+
+**Author:** furena  
+**Last Updated:** 2025-09-24  
+
+This repository contains various PowerShell utilities and scripts for system administration and data processing.
+
+## Scripts
+
+### Parse-XMLCNStrings.ps1
+
+**Version:** 1.0  
+**Purpose:** Efficiently parse XML files and extract CN= strings for CSV output  
+
+An efficient PowerShell script designed to process large datasets (1,020+ XML files) and extract strings within `<string></string>` elements that begin with "CN=". Features include:
+
+- **High Performance**: Handles 1,020+ files efficiently with batch processing
+- **Memory Optimized**: Configurable batch sizes to manage memory usage
+- **Error Handling**: Comprehensive error handling for malformed XML files
+- **Progress Tracking**: Real-time progress indicators for long-running operations
+- **Flexible Output**: CSV export with file paths, extracted strings, and optional line numbers
+- **Logging**: Detailed process and error logging
+- **Recursive Scanning**: Support for both single directory and recursive directory scanning
+
+#### Usage Examples
+
+```powershell
+# Basic usage - process XML files in a directory
+.\Parse-XMLCNStrings.ps1 -Path "C:\XMLFiles" -OutputPath "C:\Output\CNStrings.csv"
+
+# Recursive scan with line numbers
+.\Parse-XMLCNStrings.ps1 -Path "C:\XMLFiles" -Recursive -IncludeLineNumbers
+
+# Large dataset with custom batch size
+.\Parse-XMLCNStrings.ps1 -Path "C:\XMLFiles" -BatchSize 100 -Verbose
+
+# Quick scan of current directory
+.\Parse-XMLCNStrings.ps1 -Path "."
+```
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| Path | string | Yes | Path to directory containing XML files |
+| OutputPath | string | No | Output CSV file path (auto-generated if not specified) |
+| Recursive | switch | No | Scan subdirectories recursively |
+| BatchSize | int | No | Number of files per batch (default: 50, range: 1-1000) |
+| IncludeLineNumbers | switch | No | Include line numbers where CN= strings were found |
+| LogPath | string | No | Path for log files (defaults to current directory) |
+
+---
+
+### Universal Domain Cleanup Script
 
 **Version:** 1.0  
 **Last Updated:** 2025-07-30  
-**Author:** furena  
-
-## Overview
+**Purpose:** Tenant-to-tenant migration domain cleanup
 
 The Universal Domain Cleanup Script is a comprehensive PowerShell solution for tenant-to-tenant migrations. It completely removes all references to specified old domain(s) from a Microsoft 365 tenant, preparing the domains for transfer to a new tenant.
 

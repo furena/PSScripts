@@ -1,0 +1,19 @@
+# PowerShell generated files
+*.log
+XMLCNStrings_*.csv
+XMLCNParser_*.log
+
+# Temporary files
+/tmp/
+temp/
+*.tmp
+
+# IDE and editor files
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+Thumbs.db
