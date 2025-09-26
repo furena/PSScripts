@@ -8,13 +8,14 @@ This repository contains various PowerShell utilities and scripts for system adm
 
 ## Scripts
 
-### Parse-XMLCNStrings.ps1
+### Parse-XMLStrings.ps1
 
-**Version:** 1.0  
-**Purpose:** Efficiently parse XML files and extract CN= strings for CSV output  
+**Version:** 2.0  
+**Purpose:** Efficiently parse XML files and extract strings matching any specified pattern for CSV output  
 
-An efficient PowerShell script designed to process large datasets (1,020+ XML files) and extract strings within `<string></string>` elements that begin with "CN=". Features include:
+A flexible and efficient PowerShell script designed to process large datasets (1,020+ XML files) and extract strings within `<string></string>` elements that match any specified search pattern. This is the enhanced version of Parse-XMLCNStrings.ps1 with support for custom search patterns. Features include:
 
+- **Flexible Pattern Matching**: Search for any string pattern (CN=, OU=, DC=, or custom patterns)
 - **High Performance**: Handles 1,020+ files efficiently with batch processing
 - **Memory Optimized**: Configurable batch sizes to manage memory usage
 - **Error Handling**: Comprehensive error handling for malformed XML files
@@ -24,6 +25,47 @@ An efficient PowerShell script designed to process large datasets (1,020+ XML fi
 - **Recursive Scanning**: Support for both single directory and recursive directory scanning
 
 #### Usage Examples
+
+```powershell
+# Search for CN= strings (original functionality)
+.\Parse-XMLStrings.ps1 -Path "C:\XMLFiles" -SearchString "CN=" -OutputPath "C:\Output\CNStrings.csv"
+
+# Search for OU= strings
+.\Parse-XMLStrings.ps1 -Path "C:\XMLFiles" -SearchString "OU=" -OutputPath "C:\Output\OUStrings.csv"
+
+# Search for any custom pattern
+.\Parse-XMLStrings.ps1 -Path "C:\XMLFiles" -SearchString "DC=domain" -Recursive
+
+# Recursive scan with line numbers
+.\Parse-XMLStrings.ps1 -Path "C:\XMLFiles" -SearchString "CN=" -Recursive -IncludeLineNumbers
+
+# Large dataset with custom batch size
+.\Parse-XMLStrings.ps1 -Path "C:\XMLFiles" -SearchString "OU=" -BatchSize 100 -Verbose
+```
+
+#### Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| Path | string | Yes | Path to directory containing XML files |
+| SearchString | string | Yes | String pattern to search for within XML String elements (e.g., 'CN=', 'OU=', 'DC=') |
+| OutputPath | string | No | Output CSV file path (auto-generated if not specified) |
+| Recursive | switch | No | Scan subdirectories recursively |
+| BatchSize | int | No | Number of files per batch (default: 50, range: 1-1000) |
+| IncludeLineNumbers | switch | No | Include line numbers where matching strings were found |
+| LogPath | string | No | Path for log files (defaults to current directory) |
+
+---
+
+### Parse-XMLCNStrings.ps1 (Legacy)
+
+**Version:** 1.0  
+**Purpose:** Efficiently parse XML files and extract CN= strings for CSV output  
+**Status:** Legacy - Use Parse-XMLStrings.ps1 for new projects
+
+An efficient PowerShell script designed to process large datasets (1,020+ XML files) and extract strings within `<string></string>` elements that begin with "CN=". This script is maintained for backward compatibility. For new projects, use Parse-XMLStrings.ps1 which offers the same functionality plus flexible search patterns.
+
+#### Legacy Usage Examples
 
 ```powershell
 # Basic usage - process XML files in a directory
@@ -39,7 +81,7 @@ An efficient PowerShell script designed to process large datasets (1,020+ XML fi
 .\Parse-XMLCNStrings.ps1 -Path "."
 ```
 
-#### Parameters
+#### Legacy Parameters
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
